@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import LeadsTable from '@/components/LeadsTable/LeadsTable';
 import SearchBar from '@/components/Search/SearchBar';
 import FilterSidebar from '@/components/Filters/FilterSidebar';
@@ -10,7 +10,7 @@ import MetricsCards, { MetricsSummary } from '@/components/Analytics/MetricsCard
 import Charts from '@/components/Analytics/Charts';
 import Pagination from '@/components/UI/Pagination';
 import { useLeads } from '@/hooks/useLeads';
-import { useSearch } from '@/hooks/useSearch';
+
 import { useAnalytics } from '@/hooks/useAnalytics';
 import { cn } from '@/lib/utils';
 import {
@@ -22,7 +22,7 @@ export default function HomePage() {
   const [activeTab, setActiveTab] = useState<'table' | 'analytics'>('table');
   const [showFilters, setShowFilters] = useState(false);
   const [mounted, setMounted] = useState(false);
-  
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -37,23 +37,28 @@ export default function HomePage() {
     setFilters,
     pagination,
   } = leadsHook;
-  
+
 
 
   // Initialize analytics hook
   const { analyticsData, loading: analyticsLoading, error: analyticsError } = useAnalytics();
 
-  // Initialize search hook
-  const { query: searchQuery, setQuery: setSearchQuery } = useSearch();
+  // Search is handled internally by SearchBar component
 
   // Initialize filter chips hook
   const { removeFilter, clearAllFilters, activeFilterCount } = useFilterChips(filters, setFilters);
 
-  // Handle search changes
-  const handleSearchChange = (query: string) => {
-    setSearchQuery(query);
-    setFilters({ ...filters, search: query });
-  };
+  // Handle search changes (only when search button is clicked or Enter is pressed)
+  const handleSearchChange = useCallback((query: string) => {
+    if (query.trim() === '') {
+      // Remove search from filters if empty
+      const newFilters = { ...filters };
+      delete newFilters.search;
+      setFilters(newFilters);
+    } else {
+      setFilters({ ...filters, search: query });
+    }
+  }, [filters, setFilters]);
 
   // Get analytics data with fallbacks
   const metrics = analyticsData?.metrics || {
@@ -168,9 +173,8 @@ export default function HomePage() {
                   <div className="flex-1 max-w-2xl">
                     <div className="relative">
                       <SearchBar
-                        value={searchQuery}
-                        onChange={handleSearchChange}
-                        placeholder="Search leads by advertiser, service, contact info..."
+                        onSearch={handleSearchChange}
+                        placeholder="Type to search leads, then click Search or press Enter..."
                         className="w-full"
                       />
                     </div>
@@ -182,7 +186,7 @@ export default function HomePage() {
                       onClick={() => setShowFilters(!showFilters)}
                     />
 
-                    <button 
+                    <button
                       onClick={() => leadsHook.refresh()}
                       className="inline-flex items-center px-4 py-2.5 bg-muted/20 hover:bg-muted/40 border border-muted/30 hover:border-muted/50 text-sm font-medium rounded-lg text-white transition-all duration-200 backdrop-blur-sm"
                     >
@@ -240,7 +244,7 @@ export default function HomePage() {
 
             {/* Leads Table */}
             <div className="glass rounded-xl overflow-hidden hover-lift">
-              <LeadsTable 
+              <LeadsTable
                 leads={leads}
                 loading={leadsLoading}
                 error={leadsError}

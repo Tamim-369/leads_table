@@ -67,7 +67,7 @@ export default function FilterSidebar({
       {/* Backdrop */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300"
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 transition-opacity duration-300"
           onClick={onClose}
         />
       )}
@@ -75,18 +75,18 @@ export default function FilterSidebar({
       {/* Sidebar */}
       <div
         className={cn(
-          "fixed top-0 right-0 h-full w-96 bg-gray-900/95 backdrop-blur-xl border-l border-white/10 z-50 transform transition-transform duration-300 ease-in-out flex flex-col",
+          "fixed top-0 right-0 h-full w-96 bg-background/95 backdrop-blur-xl border-l border-border z-50 transform transition-transform duration-300 ease-in-out flex flex-col",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/10 flex-shrink-0">
+        <div className="flex items-center justify-between p-6 border-b border-border flex-shrink-0">
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-primary/10 rounded-lg">
               <AdjustmentsHorizontalIcon className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-white">Filters</h2>
+              <h2 className="text-lg font-semibold text-foreground">Filters</h2>
               <p className="text-sm text-muted-foreground">
                 {activeFilterCount > 0 ? `${activeFilterCount} active filters` : 'No active filters'}
               </p>
@@ -97,14 +97,14 @@ export default function FilterSidebar({
             {activeFilterCount > 0 && (
               <button
                 onClick={clearAllFilters}
-                className="px-3 py-1.5 text-sm text-muted-foreground hover:text-white bg-muted/20 hover:bg-muted/40 rounded-lg transition-all duration-200"
+                className="px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground bg-muted hover:bg-muted/80 rounded-lg transition-all duration-200"
               >
                 Clear all
               </button>
             )}
             <button
               onClick={onClose}
-              className="p-2 text-muted-foreground hover:text-white hover:bg-muted/20 rounded-lg transition-all duration-200"
+              className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-all duration-200"
             >
               <XMarkIcon className="w-5 h-5" />
             </button>
@@ -114,23 +114,23 @@ export default function FilterSidebar({
         {/* Content */}
         <div className="flex-1 overflow-y-auto custom-scrollbar relative">
           {/* Scroll indicator gradient at top */}
-          <div className="absolute top-0 left-0 right-0 h-4 bg-gradient-to-b from-gray-900/95 to-transparent pointer-events-none z-10"></div>
+          <div className="absolute top-0 left-0 right-0 h-4 bg-gradient-to-b from-background to-transparent pointer-events-none z-10"></div>
           
           {/* Scroll indicator gradient at bottom */}
-          <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-gray-900/95 to-transparent pointer-events-none z-10"></div>
+          <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-background to-transparent pointer-events-none z-10"></div>
           
           <div className="p-6 space-y-8 pb-12">
           {/* Status Filter */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-white flex items-center">
-                <div className="w-2 h-2 bg-blue-400 rounded-full mr-2"></div>
+              <h3 className="text-sm font-semibold text-foreground flex items-center">
+                <div className="w-2 h-2 bg-primary rounded-full mr-2"></div>
                 Lead Status
               </h3>
               {(localFilters.status?.length ?? 0) > 0 && (
                 <button
                   onClick={() => clearFilter('status')}
-                  className="text-xs text-muted-foreground hover:text-white"
+                  className="text-xs text-muted-foreground hover:text-foreground"
                 >
                   Clear
                 </button>
@@ -143,8 +143,8 @@ export default function FilterSidebar({
                   <label key={status} className={cn(
                     "flex items-center p-3 rounded-lg cursor-pointer transition-all duration-200 border",
                     isSelected 
-                      ? "bg-primary/20 border-primary/40 text-white" 
-                      : "bg-muted/10 border-muted/20 hover:bg-muted/20 hover:border-muted/40 text-muted-foreground hover:text-white"
+                      ? "bg-primary/10 border-primary text-foreground" 
+                      : "bg-muted/50 border-border hover:bg-muted text-muted-foreground hover:text-foreground"
                   )}>
                     <input
                       type="checkbox"
@@ -164,7 +164,7 @@ export default function FilterSidebar({
                       isSelected ? "bg-primary border-primary" : "border-muted-foreground"
                     )}>
                       {isSelected && (
-                        <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-2.5 h-2.5 text-primary-foreground" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                       )}
@@ -181,24 +181,24 @@ export default function FilterSidebar({
           {/* Probability Range */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-white flex items-center">
-                <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+              <h3 className="text-sm font-semibold text-foreground flex items-center">
+                <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
                 Probability Range
               </h3>
               {(localFilters.probabilityRange?.[0] !== 0 || localFilters.probabilityRange?.[1] !== 100) && (
                 <button
                   onClick={() => clearFilter('probabilityRange')}
-                  className="text-xs text-muted-foreground hover:text-white"
+                  className="text-xs text-muted-foreground hover:text-foreground"
                 >
                   Clear
                 </button>
               )}
             </div>
             
-            <div className="bg-muted/10 rounded-lg p-4 border border-muted/20">
+            <div className="bg-muted/50 rounded-lg p-4 border border-border">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-sm text-muted-foreground">Range:</span>
-                <span className="text-sm font-medium text-white">
+                <span className="text-sm font-medium text-foreground">
                   {localFilters.probabilityRange?.[0] || 0}% - {localFilters.probabilityRange?.[1] || 100}%
                 </span>
               </div>
@@ -216,7 +216,7 @@ export default function FilterSidebar({
                       const max = localFilters.probabilityRange?.[1] || 100;
                       updateFilter('probabilityRange', [min, max]);
                     }}
-                    className="w-full px-3 py-2 bg-muted/20 border border-muted/30 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                    className="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary"
                   />
                 </div>
                 <div>
@@ -231,7 +231,7 @@ export default function FilterSidebar({
                       const min = localFilters.probabilityRange?.[0] || 0;
                       updateFilter('probabilityRange', [min, max]);
                     }}
-                    className="w-full px-3 py-2 bg-muted/20 border border-muted/30 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                    className="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary"
                   />
                 </div>
               </div>
@@ -239,16 +239,16 @@ export default function FilterSidebar({
           </div>
 
           {/* Ad Spend Intensity */}
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-white flex items-center">
-                <div className="w-2 h-2 bg-orange-400 rounded-full mr-2"></div>
+              <h3 className="text-sm font-semibold text-foreground flex items-center">
+                <div className="w-2 h-2 bg-accent rounded-full mr-2"></div>
                 Ad Spend Intensity
               </h3>
               {(localFilters.adSpendIntensity?.length ?? 0) > 0 && (
                 <button
                   onClick={() => clearFilter('adSpendIntensity')}
-                  className="text-xs text-muted-foreground hover:text-white"
+                  className="text-xs text-muted-foreground hover:text-foreground"
                 >
                   Clear
                 </button>
@@ -271,8 +271,8 @@ export default function FilterSidebar({
                     className={cn(
                       "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 border",
                       isSelected 
-                        ? "bg-orange-500/20 border-orange-500/40 text-orange-300" 
-                        : "bg-muted/10 border-muted/20 hover:bg-muted/20 hover:border-muted/40 text-muted-foreground hover:text-white"
+                        ? "bg-accent text-accent-foreground border-accent" 
+                        : "bg-muted/50 border-border hover:bg-muted text-muted-foreground hover:text-foreground"
                     )}
                   >
                     {intensity}
@@ -280,19 +280,19 @@ export default function FilterSidebar({
                 );
               })}
             </div>
-          </div>
+          </div> */}
 
           {/* Cart Abandon Risk */}
-          <div className="space-y-4">
+          <div className="space-y-4 mt-10">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-white flex items-center">
-                <div className="w-2 h-2 bg-red-400 rounded-full mr-2"></div>
+              <h3 className="text-sm font-semibold text-foreground flex items-center">
+                <div className="w-2 h-2 bg-destructive rounded-full mr-2"></div>
                 Cart Abandon Risk
               </h3>
               {(localFilters.cartAbandonRisk?.length ?? 0) > 0 && (
                 <button
                   onClick={() => clearFilter('cartAbandonRisk')}
-                  className="text-xs text-muted-foreground hover:text-white"
+                  className="text-xs text-muted-foreground hover:text-foreground"
                 >
                   Clear
                 </button>
@@ -302,9 +302,9 @@ export default function FilterSidebar({
               {Object.values(RiskLevel).map((risk) => {
                 const isSelected = localFilters.cartAbandonRisk?.includes(risk) || false;
                 const riskColors = {
-                  'Low': 'bg-green-500/20 border-green-500/40 text-green-300',
-                  'Medium': 'bg-yellow-500/20 border-yellow-500/40 text-yellow-300',
-                  'High': 'bg-red-500/20 border-red-500/40 text-red-300'
+                  'Low': 'bg-secondary text-secondary-foreground border-secondary',
+                  'Medium': 'bg-accent text-accent-foreground border-accent',
+                  'High': 'bg-destructive text-destructive-foreground border-destructive'
                 };
                 return (
                   <button
@@ -321,7 +321,7 @@ export default function FilterSidebar({
                       "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 border",
                       isSelected 
                         ? riskColors[risk as keyof typeof riskColors]
-                        : "bg-muted/10 border-muted/20 hover:bg-muted/20 hover:border-muted/40 text-muted-foreground hover:text-white"
+                        : "bg-muted/50 border-border hover:bg-muted text-muted-foreground hover:text-foreground"
                     )}
                   >
                     {risk}
@@ -334,20 +334,20 @@ export default function FilterSidebar({
           {/* Date Range */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-semibold text-white flex items-center">
-                <div className="w-2 h-2 bg-cyan-400 rounded-full mr-2"></div>
+              <h3 className="text-sm font-semibold text-foreground flex items-center">
+                <div className="w-2 h-2 bg-primary rounded-full mr-2"></div>
                 Date Range
               </h3>
               {(localFilters.dateRange?.start || localFilters.dateRange?.end) && (
                 <button
                   onClick={() => clearFilter('dateRange')}
-                  className="text-xs text-muted-foreground hover:text-white"
+                  className="text-xs text-muted-foreground hover:text-foreground"
                 >
                   Clear
                 </button>
               )}
             </div>
-            <div className="bg-muted/10 rounded-lg p-4 border border-muted/20 space-y-3">
+            <div className="bg-muted/50 rounded-lg p-4 border border-border space-y-3">
               <div>
                 <label className="block text-xs text-muted-foreground mb-2">From Date</label>
                 <input
@@ -360,7 +360,7 @@ export default function FilterSidebar({
                       start: startDate,
                     });
                   }}
-                  className="w-full px-3 py-2 bg-muted/20 border border-muted/30 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  className="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary"
                 />
               </div>
               <div>
@@ -375,7 +375,7 @@ export default function FilterSidebar({
                       end: endDate,
                     });
                   }}
-                  className="w-full px-3 py-2 bg-muted/20 border border-muted/30 rounded-lg text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  className="w-full px-3 py-2 bg-background border border-border rounded-lg text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-primary"
                 />
               </div>
             </div>
@@ -385,20 +385,20 @@ export default function FilterSidebar({
           {serviceTypes.length > 0 && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-white flex items-center">
-                  <div className="w-2 h-2 bg-purple-400 rounded-full mr-2"></div>
+                <h3 className="text-sm font-semibold text-foreground flex items-center">
+                  <div className="w-2 h-2 bg-secondary rounded-full mr-2"></div>
                   Service Types
                 </h3>
                 {(localFilters.serviceTypes?.length ?? 0) > 0 && (
                   <button
                     onClick={() => clearFilter('serviceTypes')}
-                    className="text-xs text-muted-foreground hover:text-white"
+                    className="text-xs text-muted-foreground hover:text-foreground"
                   >
                     Clear ({localFilters.serviceTypes?.length})
                   </button>
                 )}
               </div>
-              <div className="bg-muted/10 rounded-lg border border-muted/20 max-h-48 overflow-y-auto custom-scrollbar">
+              <div className="bg-muted/50 rounded-lg border border-border max-h-48 overflow-y-auto custom-scrollbar">
                 <div className="p-3 space-y-2">
                   {serviceTypes.map((service) => {
                     const isSelected = localFilters.serviceTypes?.includes(service) || false;
@@ -406,8 +406,8 @@ export default function FilterSidebar({
                       <label key={service} className={cn(
                         "flex items-center p-2 rounded-md cursor-pointer transition-all duration-200 text-sm",
                         isSelected 
-                          ? "bg-primary/20 text-white" 
-                          : "hover:bg-muted/20 text-muted-foreground hover:text-white"
+                          ? "bg-primary/10 text-foreground" 
+                          : "hover:bg-muted text-muted-foreground hover:text-foreground"
                       )}>
                         <input
                           type="checkbox"
@@ -427,7 +427,7 @@ export default function FilterSidebar({
                           isSelected ? "bg-primary border-primary" : "border-muted-foreground"
                         )}>
                           {isSelected && (
-                            <svg className="w-2 h-2 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-2 h-2 text-primary-foreground" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
                           )}

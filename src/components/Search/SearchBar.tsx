@@ -7,10 +7,8 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 interface SearchBarProps {
-  value: string;
-  onChange: (value: string) => void;
+  onSearch: (value: string) => void;
   placeholder?: string;
-  debounceMs?: number;
   className?: string;
   disabled?: boolean;
   showClearButton?: boolean;
@@ -19,64 +17,42 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({
-  value,
-  onChange,
+  onSearch,
   placeholder = 'Search leads by name, service, contact...',
-  debounceMs = 300,
   className,
   disabled = false,
   showClearButton = true,
   onFocus,
   onBlur,
 }: SearchBarProps) {
-  const [localValue, setLocalValue] = useState(value);
+  const [localValue, setLocalValue] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-  const debounceRef = useRef<NodeJS.Timeout | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  // Debounced search effect
-  useEffect(() => {
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-    }
-
-    if (localValue !== value) {
-      setIsSearching(true);
-      debounceRef.current = setTimeout(() => {
-        onChange(localValue);
-        setIsSearching(false);
-      }, debounceMs);
-    }
-
-    return () => {
-      if (debounceRef.current) {
-        clearTimeout(debounceRef.current);
-      }
-    };
-  }, [localValue, onChange, debounceMs, value]);
-
-  // Update local value when external value changes
-  useEffect(() => {
-    if (value !== localValue) {
-      setLocalValue(value);
-    }
-  }, [value, localValue]);
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setLocalValue(e.target.value);
   }, []);
 
+  const handleSearch = useCallback(() => {
+    setIsSearching(true);
+    onSearch(localValue);
+    setTimeout(() => setIsSearching(false), 1000);
+  }, [localValue, onSearch]);
+
   const handleClear = useCallback(() => {
     setLocalValue('');
-    onChange('');
+    onSearch('');
     inputRef.current?.focus();
-  }, [onChange]);
+  }, [onSearch]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Escape') {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch();
+    } else if (e.key === 'Escape') {
       handleClear();
     }
-  }, [handleClear]);
+  }, [handleSearch, handleClear]);
 
   const handleFocus = useCallback(() => {
     onFocus?.();
@@ -111,41 +87,45 @@ export default function SearchBar({
           disabled={disabled}
           placeholder={placeholder}
           className={cn(
-            'pl-10 pr-10',
+            'pl-10 pr-24',
             disabled && 'cursor-not-allowed'
           )}
         />
 
-        {/* Clear Button */}
-        {showClearButton && localValue && !disabled && (
-          <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
+        {/* Search and Clear Buttons */}
+        <div className="absolute inset-y-0 right-0 flex items-center pr-2 space-x-1">
+          {/* Clear Button */}
+          {showClearButton && localValue && !disabled && (
             <Button
               variant="ghost"
               size="sm"
               onClick={handleClear}
-              className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+              className="h-7 w-7 p-0 text-muted-foreground hover:text-foreground"
               type="button"
               aria-label="Clear search"
             >
-              <XMarkIcon className="h-4 w-4" />
+              <XMarkIcon className="h-3 w-3" />
             </Button>
-          </div>
-        )}
+          )}
 
-        {/* Loading Indicator */}
-        {isSearching && (
-          <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-            <div className="animate-spin rounded-full h-4 w-4 border-2 border-primary border-t-transparent" />
-          </div>
-        )}
+          {/* Search Button */}
+          <Button
+            onClick={handleSearch}
+            disabled={disabled || isSearching || !localValue.trim()}
+            size="sm"
+            className="h-7 px-3 text-xs"
+            type="button"
+          >
+            {isSearching ? (
+              <div className="animate-spin rounded-full h-3 w-3 border-2 border-current border-t-transparent" />
+            ) : (
+              'Search'
+            )}
+          </Button>
+        </div>
       </div>
 
-      {/* Search Suggestions/Results Count (Optional) */}
-      {localValue && !isSearching && (
-        <div className="absolute top-full left-0 right-0 mt-1 text-xs text-muted-foreground px-3">
-          Searching for "{localValue}"
-        </div>
-      )}
+
     </div>
   );
 }
@@ -180,7 +160,7 @@ export function useSearch(initialValue = '', debounceMs = 300) {
 }
 
 // Advanced search component with filters
-interface AdvancedSearchBarProps extends Omit<SearchBarProps, 'value' | 'onChange'> {
+interface AdvancedSearchBarProps extends Omit<SearchBarProps, 'onSearch'> {
   onSearch: (query: string, filters?: Record<string, any>) => void;
   filters?: Record<string, any>;
   showFilters?: boolean;
@@ -192,28 +172,25 @@ export function AdvancedSearchBar({
   showFilters = false,
   ...props
 }: AdvancedSearchBarProps) {
-  const { searchQuery, debouncedQuery, setSearchQuery } = useSearch('', props.debounceMs);
-
-  useEffect(() => {
-    onSearch(debouncedQuery, filters);
-  }, [debouncedQuery, filters, onSearch]);
+  const handleSearch = useCallback((query: string) => {
+    onSearch(query, filters);
+  }, [onSearch, filters]);
 
   return (
     <div className="space-y-4">
       <SearchBar
-        value={searchQuery}
-        onChange={setSearchQuery}
+        onSearch={handleSearch}
         {...props}
       />
       
       {showFilters && (
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-muted-foreground">
           {/* Filter chips or advanced filter UI can be added here */}
           <div className="flex flex-wrap gap-2">
             {Object.entries(filters).map(([key, value]) => (
               <span
                 key={key}
-                className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-secondary text-secondary-foreground"
               >
                 {key}: {String(value)}
               </span>

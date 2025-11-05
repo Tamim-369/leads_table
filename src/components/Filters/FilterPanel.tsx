@@ -421,7 +421,7 @@ export default function FilterPanel({
                           : "hover:bg-muted/20 text-muted-foreground hover:text-white"
                       )}>
                         <div className={cn(
-                          "w-3 h-3 rounded border flex items-center justify-center transition-all duration-200 flex-shrink-0",
+                          "w-3 h-3 rounded border flex items-center justify-center transition-all duration-200 ",
                           isSelected ? "bg-primary border-primary" : "border-muted-foreground"
                         )}>
                           {isSelected && (
