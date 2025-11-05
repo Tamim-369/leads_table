@@ -14,9 +14,9 @@ import {
   AreaChart,
   Area,
 } from 'recharts';
-import { 
-  StatusDistribution, 
-  ServiceTypeDistribution, 
+import {
+  StatusDistribution,
+  ServiceTypeDistribution,
   ProbabilityDistribution,
   MonthlyTrend,
   LeadSourceDistribution
@@ -35,18 +35,18 @@ interface ChartsProps {
 
 // Gray theme colors only
 const GRAY_COLORS = {
-  primary: '#ffffff',
-  secondary: '#a3a3a3',
-  accent: '#d4d4d4',
-  light: '#f5f5f5',
-  medium: '#737373',
-  dark: '#525252',
-  muted: '#a3a3a3',
-  background: '#0a0a0a',
-  card: '#1a1a1a',
-  border: '#3a3a3a',
+  primary: '#f5f5f5',
+  secondary: '#d4d4d4',
+  accent: '#a3a3a3',
+  light: '#e5e5e5',
+  medium: '#9ca3af',
+  dark: '#6b7280',
+  darker: '#4b5563',
+  muted: '#9ca3af',
+  background: 'rgba(15, 15, 15, 0.95)',
+  card: 'rgba(30, 30, 30, 0.8)',
+  border: 'rgba(60, 60, 60, 0.5)',
 };
-
 // Custom tooltip component
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -144,8 +144,8 @@ function ServiceChart({ data, loading }: { data: ServiceTypeDistribution[]; load
         margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
       >
         <CartesianGrid strokeDasharray="3 3" stroke={GRAY_COLORS.border} />
-        <XAxis 
-          dataKey="name" 
+        <XAxis
+          dataKey="name"
           angle={-45}
           textAnchor="end"
           height={80}
@@ -153,7 +153,7 @@ function ServiceChart({ data, loading }: { data: ServiceTypeDistribution[]; load
           stroke={GRAY_COLORS.secondary}
         />
         <YAxis stroke={GRAY_COLORS.secondary} />
-        <Tooltip 
+        <Tooltip
           content={({ active, payload }) => {
             if (active && payload && payload.length) {
               const data = payload[0].payload;
@@ -248,7 +248,7 @@ function MonthlyTrendsChart({ data, loading }: { data: MonthlyTrend[]; loading?:
         <CartesianGrid strokeDasharray="3 3" stroke={GRAY_COLORS.border} />
         <XAxis dataKey="month" stroke={GRAY_COLORS.secondary} />
         <YAxis stroke={GRAY_COLORS.secondary} />
-        <Tooltip 
+        <Tooltip
           content={({ active, payload, label }) => {
             if (active && payload && payload.length) {
               return (

@@ -79,7 +79,7 @@ export default function FilterPanel({
             </div>
           )}
         </div>
-        
+
         <div className="flex items-center space-x-3">
           {activeFilterCount > 0 && (
             <button
@@ -127,8 +127,8 @@ export default function FilterPanel({
                   return (
                     <label key={status} className={cn(
                       "flex items-center p-3 rounded-lg cursor-pointer transition-all duration-200 border",
-                      isSelected 
-                        ? "bg-primary/20 border-primary/40 text-white" 
+                      isSelected
+                        ? "bg-primary/20 border-primary/40 text-white"
                         : "bg-muted/10 border-muted/20 hover:bg-muted/20 hover:border-muted/40 text-muted-foreground hover:text-white"
                     )}>
                       <div className={cn(
@@ -166,7 +166,7 @@ export default function FilterPanel({
                   </button>
                 )}
               </div>
-              
+
               <div className="bg-muted/10 rounded-lg p-4 border border-muted/20">
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-sm text-muted-foreground">Range:</span>
@@ -174,7 +174,7 @@ export default function FilterPanel({
                     {localFilters.probabilityRange?.[0] || 0}% - {localFilters.probabilityRange?.[1] || 100}%
                   </span>
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-3 mb-4">
                   <div>
                     <label className="block text-xs text-muted-foreground mb-2">Minimum %</label>
@@ -207,10 +207,10 @@ export default function FilterPanel({
                     />
                   </div>
                 </div>
-                
+
                 <div className="relative h-6 flex items-center">
                   <div className="absolute w-full h-2 bg-muted/40 rounded-full"></div>
-                  <div 
+                  <div
                     className="absolute h-2 bg-gradient-to-r from-primary to-green-400 rounded-full"
                     style={{
                       left: `${(localFilters.probabilityRange?.[0] || 0)}%`,
@@ -280,8 +280,8 @@ export default function FilterPanel({
                       }}
                       className={cn(
                         "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 border",
-                        isSelected 
-                          ? "bg-orange-500/20 border-orange-500/40 text-orange-300" 
+                        isSelected
+                          ? "bg-orange-500/20 border-orange-500/40 text-orange-300"
                           : "bg-muted/10 border-muted/20 hover:bg-muted/20 hover:border-muted/40 text-muted-foreground hover:text-white"
                       )}
                     >
@@ -329,7 +329,7 @@ export default function FilterPanel({
                       }}
                       className={cn(
                         "px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 border",
-                        isSelected 
+                        isSelected
                           ? riskColors[risk as keyof typeof riskColors]
                           : "bg-muted/10 border-muted/20 hover:bg-muted/20 hover:border-muted/40 text-muted-foreground hover:text-white"
                       )}
@@ -416,8 +416,8 @@ export default function FilterPanel({
                     return (
                       <label key={service} className={cn(
                         "flex items-center p-2 rounded-md cursor-pointer transition-all duration-200 text-sm",
-                        isSelected 
-                          ? "bg-primary/20 text-white" 
+                        isSelected
+                          ? "bg-primary/20 text-white"
                           : "hover:bg-muted/20 text-muted-foreground hover:text-white"
                       )}>
                         <div className={cn(
@@ -464,13 +464,13 @@ export function FilterToggle({ activeFilterCount, onClick, className }: FilterTo
       )}
     >
       <AdjustmentsHorizontalIcon className="w-4 h-4 mr-2" />
-      <span>Advanced Filters</span>
+      <span>Filters</span>
       {activeFilterCount > 0 && (
         <div className="ml-2 flex items-center px-2 py-0.5 bg-primary/30 rounded-full">
           <span className="text-xs font-semibold">{activeFilterCount}</span>
         </div>
       )}
-      <ChevronDownIcon className="ml-2 w-4 h-4 opacity-60" />
+      {/* <ChevronDownIcon className="ml-2 w-4 h-4 opacity-60" /> */}
     </button>
   );
 }
