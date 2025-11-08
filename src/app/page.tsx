@@ -99,7 +99,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-background custom-scrollbar">
       {/* Header */}
       <div className="bg-card border-b border-border sticky top-0 z-50 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center">
               <div className="flex items-center space-x-4">
@@ -156,7 +156,7 @@ export default function HomePage() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-[90%] mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {activeTab === 'table' && (
           <div className="space-y-8">
             {/* Mobile Metrics Summary */}
