@@ -458,15 +458,15 @@ export function FilterToggle({ activeFilterCount, onClick, className }: FilterTo
     <button
       onClick={onClick}
       className={cn(
-        'inline-flex items-center px-4 py-2.5 bg-muted/20 hover:bg-muted/40 border border-muted/30 hover:border-muted/50 text-sm font-medium rounded-lg text-white transition-all duration-200 backdrop-blur-sm',
-        activeFilterCount > 0 && 'bg-primary/20 border-primary/40 text-primary-foreground',
+        'inline-flex items-center px-4 py-2.5 bg-muted/20 hover:bg-muted/40 border border-muted/30 hover:border-muted/50 text-sm font-medium rounded-lg text-white transition-all duration-200 backdrop-blur-sm cursor-pointer',
+        activeFilterCount > 0 && 'bg-primary border-primary text-primary-foreground hover:bg-primary',
         className
       )}
     >
       <AdjustmentsHorizontalIcon className="w-4 h-4 mr-2" />
       <span>Filters</span>
       {activeFilterCount > 0 && (
-        <div className="ml-2 flex items-center px-2 py-0.5 bg-primary/30 rounded-full">
+        <div className="ml-2 flex items-center bg-gray-900 text-white px-2 py-0.5 rounded-full">
           <span className="text-xs font-semibold">{activeFilterCount}</span>
         </div>
       )}
