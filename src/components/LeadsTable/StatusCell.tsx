@@ -13,7 +13,7 @@ interface StatusCellProps {
   disabled?: boolean;
 }
 
-const STATUS_CONFIG: Record<LeadStatusType, { 
+const STATUS_CONFIG: Record<LeadStatusType, {
   variant: 'default' | 'secondary' | 'destructive' | 'outline';
   color: string;
   bgColor: string;
@@ -21,13 +21,13 @@ const STATUS_CONFIG: Record<LeadStatusType, {
 }> = {
   [LeadStatus.NEW]: {
     variant: 'secondary',
-    color: 'text-gray-700',
+    color: 'text-gray-800',
     bgColor: 'bg-gray-100 hover:bg-gray-200',
     label: 'New'
   },
   [LeadStatus.CONTACTED]: {
     variant: 'default',
-    color: 'text-blue-700',
+    color: 'text-cyan-500',
     bgColor: 'bg-blue-100 hover:bg-blue-200',
     label: 'Contacted'
   },
@@ -39,13 +39,13 @@ const STATUS_CONFIG: Record<LeadStatusType, {
   },
   [LeadStatus.PROPOSAL_SENT]: {
     variant: 'outline',
-    color: 'text-purple-700',
+    color: 'text-purple-500',
     bgColor: 'bg-purple-100 hover:bg-purple-200',
     label: 'Proposal Sent'
   },
   [LeadStatus.CLOSED_WON]: {
     variant: 'default',
-    color: 'text-green-700',
+    color: 'text-emerald-500',
     bgColor: 'bg-green-100 hover:bg-green-200',
     label: 'Closed Won'
   },
@@ -57,7 +57,7 @@ const STATUS_CONFIG: Record<LeadStatusType, {
   },
   [LeadStatus.CLIENT]: {
     variant: 'default',
-    color: 'text-emerald-700',
+    color: 'text-cyan-500',
     bgColor: 'bg-emerald-100 hover:bg-emerald-200',
     label: 'Client'
   },
@@ -149,27 +149,27 @@ export default function StatusCell({ status, onStatusChange, disabled = false }:
 
       {/* Dropdown Menu */}
       {isOpen && !disabled && !isUpdating && (
-        <div 
+        <div
           ref={dropdownRef}
-          className="absolute right-0 mt-2 w-48 status-dropdown z-50 py-2"
+          className="absolute right-0 mt-2 w-48 status-dropdown z-50 py-2 bg-gray-900"
         >
           {statusOptions.map((statusOption) => {
             const config = STATUS_CONFIG[statusOption];
             const isSelected = statusOption === currentStatus;
-            
+
             return (
               <button
                 key={statusOption}
                 onClick={() => handleStatusChange(statusOption)}
                 className={cn(
-                  'w-full flex items-center justify-between px-4 py-2.5 text-sm transition-colors duration-150',
-                  'hover:bg-gray-50 dark:hover:bg-gray-700',
-                  isSelected && 'bg-gray-50 dark:bg-gray-700'
+                  'w-full flex items-center justify-between px-4 py-2.5 text-sm transition-colors duration-150 ',
+                  'bg-transparent border-b border-gray-600 hover:bg-gray-800',
+                  isSelected && 'bg-gray-800 '
                 )}
               >
                 <div className="flex items-center">
                   <div className={cn(
-                    'flex items-center px-2.5 py-1 rounded-full text-xs font-medium mr-3',
+                    'flex items-center px-2.5 py-1 rounded-full text-xs mr-3 font-bold',
                     config.color,
                     config.bgColor.replace('hover:', '')
                   )}>
