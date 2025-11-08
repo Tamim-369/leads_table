@@ -8,13 +8,15 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import StatusCell from './StatusCell';
-import { 
-  ChevronDownIcon, 
+import {
+  ChevronDownIcon,
   ChevronRightIcon,
   PhoneIcon,
   GlobeAltIcon,
   ClipboardDocumentIcon,
 } from '@heroicons/react/24/outline';
+import { IoOpenOutline } from 'react-icons/io5';
+import Link from 'next/link';
 
 interface ColumnConfig {
   key: keyof Lead;
@@ -56,8 +58,8 @@ export default function TableRowComponent({
 
   // Format probability with color coding
   const formatProbability = (probability: number) => {
-    const variant = probability >= 70 ? 'default' : 
-                   probability >= 40 ? 'secondary' : 'destructive';
+    const variant = probability >= 70 ? 'default' :
+      probability >= 40 ? 'secondary' : 'destructive';
     return (
       <Badge variant={variant} className="font-medium">
         {probability}%
@@ -92,7 +94,7 @@ export default function TableRowComponent({
 
   const handleCopyContact = async (contact: string) => {
     if (!contact) return;
-    
+
     setCopying('contact');
     try {
       await navigator.clipboard.writeText(contact);
@@ -105,7 +107,7 @@ export default function TableRowComponent({
   // Render cell content based on column type
   const renderCellContent = (column: ColumnConfig) => {
     const value = lead[column.key];
-    
+
     switch (column.key) {
       case 'advertiser':
         return (
@@ -115,14 +117,16 @@ export default function TableRowComponent({
                 {value as string}
               </div>
               {lead.facebook_link && (
-                <Button
-                  variant="link"
-                  size="sm"
-                  onClick={() => handleFacebook(lead.facebook_link)}
-                  className="h-auto p-0 text-xs text-primary hover:text-primary/80 truncate max-w-[180px]"
+                <Link
+                  href={lead.facebook_link}
+                  className=" p-0 text-xs   truncate max-w-[180px] cursor-pointer text-cyan-500 uppercase font-medium mt-1 flex items-center gap-2"
+                  target='_blank'
                 >
-                  Facebook Page
-                </Button>
+                  <span className='border-b border-cyan-500'>VISIT PAGE</span>
+
+                  <IoOpenOutline className='h-4 w-4' />
+
+                </Link>
               )}
             </div>
           </div>
@@ -242,8 +246,8 @@ export default function TableRowComponent({
               onClick={onToggleExpansion}
               className={cn(
                 "h-8 w-8 p-0 transition-colors",
-                isExpanded 
-                  ? "text-primary bg-primary/10 hover:bg-primary/20" 
+                isExpanded
+                  ? "text-primary bg-primary/10 hover:bg-primary/20"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
               )}
               title={isExpanded ? 'Collapse' : 'Expand'}
@@ -254,7 +258,7 @@ export default function TableRowComponent({
                 <ChevronRightIcon className="w-4 h-4" />
               )}
             </Button>
-            
+
             {lead.website_link && lead.website_link !== 'FB Only' && (
               <Button
                 variant="ghost"
@@ -282,7 +286,7 @@ export default function TableRowComponent({
                     <span className="font-semibold text-foreground text-sm uppercase tracking-wide">Reasoning:</span>
                     <p className="mt-2 text-muted-foreground leading-relaxed">{lead.reasoning || 'No reasoning provided'}</p>
                   </div>
-                  
+
                   <div className="bg-muted/50 rounded-lg p-4">
                     <span className="font-semibold text-foreground text-sm uppercase tracking-wide">Issues:</span>
                     <p className="mt-2 text-muted-foreground leading-relaxed">{lead.issues || 'No issues noted'}</p>
@@ -358,7 +362,7 @@ export default function TableRowComponent({
                         className="bg-green-600 hover:bg-green-700 text-white"
                       >
                         <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
                         </svg>
                         WhatsApp
                       </Button>
